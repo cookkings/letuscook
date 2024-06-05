@@ -1,0 +1,16 @@
+#/bin/sh
+# Helper script for testing on macOS.
+
+# Read configuration file.
+testcmd_delete_logs="1"
+testcmd_gradle_task="clean test jar"
+while IFS='=' read -r key value; do
+  export $key="$value"
+done < test.ini
+
+if [ "$testcmd_delete_logs" = "1" ]; then
+  rm -f logs/*
+fi
+./gradle $testcmd_gradle_task || exit
+
+osascript test.scpt

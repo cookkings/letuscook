@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+  <Appenders>
+
+    <Console name="genericConsole" target="SYSTEM_OUT">
+      <PatternLayout pattern="${style}"/>
+    </Console>
+
+    <RollingFile filePattern="${filePrefix}client${fileSuffix}" name="clientFile">
+      <PatternLayout pattern="${style}"/>
+      <Policies>
+        <SizeBasedTriggeringPolicy size="10 MB"/>
+      </Policies>
+    </RollingFile>
+
+    <RollingFile filePattern="${filePrefix}server${fileSuffix}" name="serverFile">
+      <PatternLayout pattern="${style}"/>
+      <Policies>
+        <SizeBasedTriggeringPolicy size="10 MB"/>
+      </Policies>
+    </RollingFile>
+
+  </Appenders>
+
+  <Loggers>
+
+    <Logger additivity="false" name="server">
+      <AppenderRef ref="serverFile"/>
+    </Logger>
+
+    <Logger additivity="false" name="client">
+      <AppenderRef ref="clientFile"/>
+    </Logger>
+
+    <Root level="TRACE">
+      <AppenderRef ref="genericConsole"/>
+    </Root>
+
+  </Loggers>
+
+  <Properties>
+
+    <Property name="style">%d{HH:mm:ss.SSS} %-5level [%-13t] %msg%n
+    </Property>
+
+    <Property name="filePrefix">logs/</Property>
+
+    <Property name="fileSuffix">-%d{yyyy-MM-dd}-%d{HH-mm-ss.SSS}-%i.log</Property>
+
+  </Properties>
+
+</Configuration>
